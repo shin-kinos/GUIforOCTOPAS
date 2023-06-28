@@ -1,5 +1,6 @@
 
 import sys
+import os
 from PyQt6.QtWidgets import (
     QApplication,
     QWidget,
@@ -12,16 +13,21 @@ from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QMessageBox,
+    QDialog,
+    QVBoxLayout,
 )
+from PyQt6.QtGui  import QPixmap
 from PyQt6.QtCore import QSize, Qt
 from pathlib      import Path
+#from PyQt6.QtWebEngineWidgets import QWebEngineView
 
 import stylesheet_for_qt as st
 import pruner
 import utils
 import example
+import viewer
 
-# -------------------------- WIDGETS STYLE PARAMETERS -------------------------- #
+# ------------------------------ WIDGETS STYLE PARAMETERS ------------------------------ #
 WINDOW_WIDTH      = 900
 WINDOW_HEIGHT     = 700
 FIN_BUTTON_WIDTH  = 200
@@ -32,11 +38,11 @@ OPT_BUTTON_WIDTH  = 230
 OPT_BUTTON_HEIGHT = 30
 RUN_BUTTON_WIDTH  = 180
 RUN_BUTTON_HEIGHT = 30
-DL_BUTTON_WIDTH   = 300
+DL_BUTTON_WIDTH   = 320
 DL_BUTTON_HEIGHT  = 30
 LINK_TEMPLATE     = '<a href={0}>{1}</a>'
-PYTHON_SRC_LINK   = 'https://www.cranfield.ac.uk/people/dr-zoltan-kevei-337915'
-# ------------------------------------------------------------------------------ #
+PYTHON_SRC_LINK   = 'https://www.cranfield.ac.uk/courses/taught/applied-bioinformatics'
+# -------------------------------------------------------------------------------------- #
 
 # Class for title label
 class titleLabel( QLabel ):
@@ -122,6 +128,26 @@ class setHelpToolTip( QLabel ):
         self.setToolTip( content )
         self.setStyleSheet( st.help_tooltip )
 
+# Class for showing picture dialog
+class showResultTreeDialog( QDialog ):
+    def __init__( self ): # filepath
+        super().__init__()
+        layout = QVBoxLayout()   # Omajinai
+        self.setLayout( layout ) # Omajinai
+        self.setStyleSheet( 'background-color : #FAFAFA' )
+
+        image = QPixmap( 'test.png' )
+        #res   = QSize( 800, 480 ) #1440, 836
+        #image = image.scaled( res, aspectRatioMode = Qt.AspectRatioMode.KeepAspectRatio )
+
+        label = QLabel()
+        label.setPixmap( image )
+        #lable = self.resize( 800, 480 )
+        #self.setFixedSize( 1008, 585 )
+        layout.addWidget( label )
+
+        self.exec()
+
 # Class for download dialog
 class showDownloadDialog( QMessageBox ):
     def __init__( self, file_name ):
@@ -146,6 +172,14 @@ class showFinishDialog( QMessageBox ):
         self.setWindowTitle( 'FINISH DIALOG' )
         self.setIcon( QMessageBox.Icon.Information )
         self.setText( 'Program Finished!' )
+        self.exec()
+
+# Class for tree viewer dialog
+class showTreeViewDialog( QMessageBox ):
+    def __init__( self, file_name, dir_name ):
+        super().__init__()
+        self.setWindowTitle( 'DOWNLOADING OUPUT' )
+        self.setText( 'NOTE: ' + file_name + ' is saved in \n' + dir_name )
         self.exec()
 
 # Class of main central part of app
@@ -263,29 +297,37 @@ class mainApp( QWidget ):
         self.button_dl_tree.setEnabled( False )
         if ( self.button_dl_tree.isEnabled() == False ): self.button_dl_tree.setStyleSheet( st.button_download_disable )
 
-        layout.addWidget( title,                  0, 0, 1, 1 )
-        layout.addWidget( source,                 1, 0, 1, 1 )
-        layout.addWidget( button_fin,             2, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( help_input,             2, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( self.example_cbox,      3, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( help_example,           3, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( self.input_content,     4, 0, 1, 1 )
-        layout.addWidget( self.button_clear,      5, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( option_title,           6, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( option_stop_msg,        7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( help_stopoption,        7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( self.option_stop_opt,   7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( option_thresh_msg,      8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.option_thresh,     8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( help_threshold,         8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( option_resol_msg,       9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.option_resol,      9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( help_resolution,        9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( self.button_run,       10, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( QLabel( '' ),          11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( result_title,          12, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.button_dl_leaves, 13, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.button_dl_tree,   14, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        # Set result tree visualisation
+        self.button_show_trees = QPushButton( '&See result trees on  browser ...', clicked = self.showResultTrees )
+        self.button_show_trees.setStyleSheet( st.button_download_able )
+        self.button_show_trees.setFixedSize( QSize( DL_BUTTON_WIDTH, DL_BUTTON_HEIGHT ) )
+        self.button_show_trees.setEnabled( False )
+        if ( self.button_show_trees.isEnabled() == False ): self.button_show_trees.setStyleSheet( st.button_download_disable )
+
+        layout.addWidget( title,                   0, 0, 1, 1 )
+        layout.addWidget( source,                  1, 0, 1, 1 )
+        layout.addWidget( button_fin,              2, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( help_input,              2, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( self.example_cbox,       3, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( help_example,            3, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( self.input_content,      4, 0, 1, 1 )
+        layout.addWidget( self.button_clear,       5, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( option_title,            6, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( option_stop_msg,         7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( help_stopoption,         7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( self.option_stop_opt,    7, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( option_thresh_msg,       8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.option_thresh,      8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( help_threshold,          8, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( option_resol_msg,        9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.option_resol,       9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( help_resolution,         9, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( self.button_run,        10, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( QLabel( '' ),           11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( result_title,           12, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_dl_leaves,  13, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_dl_tree,    14, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_show_trees, 15, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
 
     def openInputFile( self ):
         file_name, _ = QFileDialog.getOpenFileName( self )
@@ -327,6 +369,9 @@ class mainApp( QWidget ):
         self.button_dl_tree.setEnabled(   False )
         if ( self.button_dl_leaves.isEnabled() == False ): self.button_dl_leaves.setStyleSheet( st.button_download_disable )
         if ( self.button_dl_tree.isEnabled()   == False ): self.button_dl_tree.setStyleSheet(   st.button_download_disable )
+        # Disable result trees showing button
+        self.button_show_trees.setEnabled( False )
+        if ( self.button_show_trees.isEnabled() == False ): self.button_show_trees.setStyleSheet( st.button_download_disable )
 
     def clearInputInfo( self ):
         # Change checkbox state 'unchecked'
@@ -341,6 +386,9 @@ class mainApp( QWidget ):
         self.button_dl_tree.setEnabled(   False )
         if ( self.button_dl_leaves.isEnabled() == False ): self.button_dl_leaves.setStyleSheet( st.button_download_disable )
         if ( self.button_dl_tree.isEnabled()   == False ): self.button_dl_tree.setStyleSheet(   st.button_download_disable )
+        # Disable result trees showing button
+        self.button_show_trees.setEnabled( False )
+        if ( self.button_show_trees.isEnabled() == False ): self.button_show_trees.setStyleSheet( st.button_download_disable )
 
     def runProgram( self ):
         # Check parameters
@@ -363,6 +411,11 @@ class mainApp( QWidget ):
             )
             # Show finish dialog
             showFinishDialog()
+            # Get input Newick file information for result visualisation
+            self.input_tree = ( self.input_content ).toPlainText()
+            # Activate result trees showing button
+            self.button_show_trees.setEnabled( True )
+            if ( self.button_show_trees.isEnabled() == True ): self.button_show_trees.setStyleSheet( st.button_download_able )
             # Activate download buttons
             self.button_dl_leaves.setEnabled( True )
             self.button_dl_tree.setEnabled( True )
@@ -396,6 +449,17 @@ class mainApp( QWidget ):
             fout.write( content )
             fout.close()
             showDownloadDialog( file_name )
+
+    # Show result trees
+    def showResultTrees( self ):
+        #file_path = ''
+        #dir_name  = QFileDialog.getExistingDirectory( self )
+        #if dir_name:
+        #    file_name = utils.out_trees_html_name( dir_name )
+        #    file_path = dir_name + '/' + file_name
+        #    viewer.plot_result_trees( self.input_tree, self.output_tree, file_path )
+        #showTreeViewDialog( file_name, dir_name )
+        showResultTreeDialog()
 
 app = QApplication( sys.argv )
 

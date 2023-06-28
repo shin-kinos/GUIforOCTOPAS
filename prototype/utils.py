@@ -73,6 +73,23 @@ def out_tree_file_name( dir_name ):
 
     return( file_name )
 
+# Define output tree visualisation HTML file name
+# This is to avoid overwritten of same name file
+def out_trees_html_name( dir_name ):
+    # Initialise output file name
+    file_name = ''
+    # Check if same name file exists in directory
+    if   ( os.path.exists( dir_name + '/result_trees_plot.html' ) == False ): return( 'result_trees_plot.html' )
+    elif ( os.path.exists( dir_name + '/result_trees_plot.html' ) == True  ):
+        # Initialise copy number ( result_trees_plot(n).html )
+        copy_num = 1
+        while( True ):
+            file_name = 'result_trees_plot' + '(' + str( copy_num ) + ').html'
+            if ( os.path.exists( dir_name + '/' + file_name ) == False ): break
+            copy_num += 1
+
+    return( file_name )
+
 help_input      = 'The input file must be Newick format.'
 help_example    = 'This example tree is composed of\nhighly redundant 300 leaves of\nhemoglobin subunit alpha\nAA sequences obtained from\nUniProt KB (swissprot).'
 help_stopoption = '\'# of leaves remain\' represents\na stop option of how many\nleaves you would like to keep.\n\'Relative tree length\' is a\nthreshold by calculating total\nbranch length of pruned tree\ndevided by total branch length\nof original tree.'

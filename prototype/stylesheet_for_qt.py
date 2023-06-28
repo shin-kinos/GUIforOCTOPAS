@@ -1,6 +1,7 @@
 
 main_flame = '''
     background-color : #FAFAFA;
+    font-family      : Arial;
     font-size        : 25px;
     color            : #4D4646;
 '''
@@ -8,12 +9,14 @@ main_flame = '''
 title = '''
     color            : white;
     background-color : #24A19C;
+    font-family      : Arial;
     font-size        : 35pt;
     font-weight      : bold;
 '''
 
 source = '''
     background-color : #FBCB0A;
+    font-family      : Arial;
     font-size        : 16pt;
     font-weight      : bold;
     text-decoration  : underline;
@@ -26,6 +29,7 @@ button_fin = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
@@ -37,6 +41,7 @@ input_txt_field = '''
     border-style     : solid;
     border-width     : 3px;
     border-radius    : 3px;
+    font-family      : Arial;
     font-size        : 16px;
 '''
 
@@ -47,6 +52,7 @@ button_clear = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 5px;
+    font-family      : Arial;
     font-size        : 16px;
     font-style       : italic;
 '''
@@ -54,6 +60,7 @@ button_clear = '''
 example_cbox = '''
     color            : #73777B;
     background-color : transparent;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
@@ -65,6 +72,7 @@ button_run_disable = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-weight      : bold;
     font-style       : italic;
@@ -77,6 +85,7 @@ button_run_able = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-weight      : bold;
     font-style       : italic;
@@ -89,6 +98,7 @@ button_download_disable = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
@@ -100,6 +110,7 @@ button_download_able = '''
     border-style     : solid;
     border-width     : 1px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
@@ -111,6 +122,7 @@ combobox = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
@@ -122,18 +134,21 @@ linetextbox = '''
     border-style     : solid;
     border-width     : 2px;
     border-radius    : 6px;
+    font-family      : Arial;
     font-size        : 20px;
     font-style       : italic;
 '''
 
 option_title = '''
-    color     : #73777B;
-    font-size : 24px;
+    color       : #73777B;
+    font-family : Arial;
+    font-size   : 24px;
 '''
 
 option_msg = '''
     color            : #73777B;
     background-color : transparent;
+    font-family      : Arial;
     font-size        : 20px;
 '''
 
@@ -141,12 +156,15 @@ help_tooltip = '''
     QLabel {
         color            : #24A19C;
         background-color : transparent;
+        font-family      : Arial;
         font-size        : 20px;
         font-style       : italic;
     }
     QToolTip {
         color            : white;
         background-color : #060047;
+        border-style     : solid;
+        font-family      : Arial;
         font-size        : 16px;
     }
 '''
