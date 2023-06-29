@@ -22,6 +22,13 @@ source = '''
     text-decoration  : underline;
 '''
 
+version = '''
+    color            : #24A19C;
+    background-color : transparent;
+    font-family      : Arial;
+    font-size        : 14px;
+'''
+
 button_fin = '''
     color            : #24A19C;
     background-color : transparent;
@@ -42,7 +49,7 @@ input_txt_field = '''
     border-width     : 3px;
     border-radius    : 3px;
     font-family      : Arial;
-    font-size        : 16px;
+    font-size        : 14px;
 '''
 
 button_clear = '''

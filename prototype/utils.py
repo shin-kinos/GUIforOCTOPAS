@@ -1,5 +1,8 @@
 
+import os
 import os.path # For file exist checking
+import random
+import string
 
 # Input read newick file
 def read_newick( file_path ):
@@ -73,11 +76,12 @@ def out_tree_file_name( dir_name ):
 
     return( file_name )
 
-# Define output tree visualisation HTML file name
+# Define output tree HTML file name
 # This is to avoid overwritten of same name file
 def out_trees_html_name( dir_name ):
     # Initialise output file name
     file_name = ''
+    #print(''.join(random.choices(string.ascii_letters, k=5)))
     # Check if same name file exists in directory
     if   ( os.path.exists( dir_name + '/result_trees_plot.html' ) == False ): return( 'result_trees_plot.html' )
     elif ( os.path.exists( dir_name + '/result_trees_plot.html' ) == True  ):
@@ -90,8 +94,37 @@ def out_trees_html_name( dir_name ):
 
     return( file_name )
 
+# Define output tree visualisation PNG file name
+# Randomised name temporary file is generated
+def out_trees_png_path():
+    print( '\nGenerating tempfile name ...' )
+    # Initialise output file name
+    file_name = ''
+    file_path = ''
+    while( True ):
+        random_str = ''.join( random.choices( string.ascii_letters, k = 10 ) )
+        file_name  = 'tempfile_' + random_str + '.png'
+        file_path  = os.getcwd() + '/' + file_name
+        if ( os.path.exists( file_path ) == False ): break
+
+    print( '=> DONE : ' + file_name )
+    return( file_path )
+
+# Remove temp file
+def remove_tempfile( file_path ):
+    print( '\nRemoving tempfile ...' )
+    if ( os.path.exists( file_path ) == True ):
+        os.remove( file_path )
+        print( '=> DONE' )
+    else:
+        print( 'WARNING : The tempfile \'' + file_path + '\' does not exist!' )
+        print( '=> DONE' )
+
+    return
+
 help_input      = 'The input file must be Newick format.'
 help_example    = 'This example tree is composed of\nhighly redundant 300 leaves of\nhemoglobin subunit alpha\nAA sequences obtained from\nUniProt KB (swissprot).'
 help_stopoption = '\'# of leaves remain\' represents\na stop option of how many\nleaves you would like to keep.\n\'Relative tree length\' is a\nthreshold by calculating total\nbranch length of pruned tree\ndevided by total branch length\nof original tree.'
 help_threshold  = 'IMPORTANT: If the stop option\nis \'# of leaves remain\', this value\nmust be 3 or more integer\nnumber. If \'Relative tree length\',\nthis value must be real number\nat the range of [0, 1].'
 help_resolution = 'This value must be 1 or more\ninteger number. e.g. If the\nresolution is 5, the top 5\nredundant leaves are pruned\nin one iteration.'
+help_viewer     = 'Simple view of the result trees.\nNOTE that the tree at the\ntop place is the original input\ntree, and one on the bottom\nis the result pruned tree.'
