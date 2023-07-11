@@ -8,8 +8,18 @@ import toyplot.html
 #import toyplot.png
 
 # Create trees plot HTML file 
-def render_result_trees( input_tree, output_tree, file_path ):
+def render_result_trees(
+        input_tree,
+        output_tree,
+        file_path,
+        leaves_label
+    ):
     print( '\nRendering trees plot ...' )
+
+    # Check leaves label option
+    node_hover_opt = False
+    if   ( leaves_label == 'No labels in trees'   ): node_hover_opt = False
+    elif ( leaves_label == 'Show labels in trees' ): node_hover_opt = True
 
     # Create multiple tree list for 'toyplot'
     original_tree = input_tree
@@ -38,7 +48,7 @@ def render_result_trees( input_tree, output_tree, file_path ):
         node_sizes       = 15,
         node_colors      = 'transparent',
         scalebar         = True,
-        #node_hover       = True,
+        node_hover       = node_hover_opt,
         height           = 600,
         width            = 1000
     )

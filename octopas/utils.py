@@ -144,10 +144,11 @@ def remove_tempfile( file_path ):
 
     return
 
-# Tooltips
+# Tooltip messages
 help_input      = 'The input file must be Newick format.'
 help_example    = 'This example tree is composed of\nhighly redundant 300 leaves of\nhemoglobin subunit alpha\nAA sequences obtained from\nUniProt KB (swissprot).'
 help_stopoption = '\'# of leaves remain\' represents\na stop option of how many\nleaves you would like to keep.\n\'Relative tree length\' is a\nthreshold by calculating total\nbranch length of pruned tree\ndevided by total branch length\nof original tree.'
 help_threshold  = 'IMPORTANT: If the stop option\nis \'# of leaves remain\', this value\nmust be 3 or more integer\nnumber. If \'Relative tree length\',\nthis value must be real number\nat the range of [0, 1].'
 help_resolution = 'This value must be 1 or more\ninteger number. e.g. If the\nresolution is 5, the top 5\nredundant leaves are pruned\nin one iteration.'
 help_viewer     = 'Quick and simple view of the\nresult trees. NOTE that the tree\nat the top place is the original\ninput tree, and one on the\nbottom is the result pruned tree.'
+help_treelable  = 'Whether or not information in\neach leaf is shown when hover\nover. If \'Show labels in trees\',\nthe generated HTML on browser\nwill have a functionality\nshowing some information\nabout leaves when the user hover\nover them. NOTE: the rendering\nof them might take long time\nwhen the input file is large (e.g.,\nmore than 1000 leaves).'

@@ -2,10 +2,13 @@
 import time               # For elapse time reporting
 import phylotreelib as pt # Package for tree handling
 
-DIGIT   = 6            # Global variable to round float values
-RED     = '\033[1;31m' # Escape sequence colour code : RED
-GREEN   = '\033[1;32m' # Escape sequence colour code : GREEN
-RESET   = '\033[0m'    # Reset escape sequence colour code
+DIGIT = 6 # Global variable to round float values
+
+''' These global variables are not used anymore !!!
+    RED     = '\033[1;31m' # Escape sequence colour code : RED
+    GREEN   = '\033[1;32m' # Escape sequence colour code : GREEN
+    RESET   = '\033[0m'    # Reset escape sequence colour code
+'''
 
 # --------------------------------------------------------------------------- #
 #                  GENERAL FUNCTIONS (FINISH PROGRAM REPORT)                  #
@@ -13,7 +16,8 @@ RESET   = '\033[0m'    # Reset escape sequence colour code
 
 # Print 'PROGRAM FINISHED !!!'
 def finish_program():
-    print( '\n' + GREEN + 'PROGRAM FINISHED !!!' + RESET )
+    #print( '\n' + GREEN + 'PROGRAM FINISHED !!!' + RESET )
+    print( '\n' + 'PROGRAM FINISHED !!!' )
 
 # --------------------------------------------------------------------------- #
 #             GENERAL CLASSES (OPTION SETTING AND TIME HANDLING)              #

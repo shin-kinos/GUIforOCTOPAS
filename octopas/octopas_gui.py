@@ -31,13 +31,13 @@ FIN_BUTTON_WIDTH  = 200
 FIN_BUTTON_HEIGHT = 30
 CLR_BUTTON_WIDTH  = 120
 CLR_BUTTON_HEIGHT = 25
-OPT_BUTTON_WIDTH  = 230
+OPT_BUTTON_WIDTH  = 240
 OPT_BUTTON_HEIGHT = 30
 RUN_BUTTON_WIDTH  = 180
 RUN_BUTTON_HEIGHT = 30
 DL_BUTTON_WIDTH   = 320
 DL_BUTTON_HEIGHT  = 30
-VERSION           = 'version 0.1.5  '
+VERSION           = 'version 0.1.6  '
 #MSGBOX_TEMPLATE   = 'QLabel{ min-width: 200px; }'
 LINK_TEMPLATE     = '<a href={0}>{1}</a>'
 PYTHON_SRC_LINK   = 'https://www.cranfield.ac.uk/courses/taught/applied-bioinformatics'
@@ -104,6 +104,15 @@ class comboboxForStopOption( QComboBox ):
         global OPT_BUTTON_WIDTH, FIN_BUTTON_HEIGHT
         self.setStyleSheet( st.combobox )
         self.addItems( [ 'Relative tree length', '# of leaves remain' ] )
+        self.setFixedSize( QSize( OPT_BUTTON_WIDTH, FIN_BUTTON_HEIGHT ) )
+
+# Class for combobox of tree label
+class comboboxForTreeLabel( QComboBox ):
+    def __init__( self ):
+        super().__init__()
+        global OPT_BUTTON_WIDTH, FIN_BUTTON_HEIGHT
+        self.setStyleSheet( st.combobox )
+        self.addItems( [ 'No labels in trees', 'Show labels in trees' ] )
         self.setFixedSize( QSize( OPT_BUTTON_WIDTH, FIN_BUTTON_HEIGHT ) )
 
 # Class for options
@@ -217,6 +226,7 @@ class mainApp( QWidget ):
         self.input_tree    = ''
         self.output_leaves = ''
         self.output_tree   = ''
+        self.leaves_label  = 'No labels in trees'
 
         # Create grid layout
         layout = QGridLayout()   # Omajinai
@@ -288,6 +298,14 @@ class mainApp( QWidget ):
         self.option_resol.setText( '1' )
         help_resolution = setHelpToolTip( utils.help_resolution )
 
+        # Set tree label appearance label
+        option_trelb_msg = optionMessageLabel()
+        option_trelb_msg.setText( 'Label appearance :' )
+
+        # Set tree lable option
+        self.option_trelb = comboboxForTreeLabel()
+        help_treelabel    = setHelpToolTip( utils.help_treelable )
+
         # Set RUN button
         self.button_run = QPushButton( '&RUN', clicked = self.runProgram )
         #self.button_run.setStyleSheet( st.button_run )
@@ -342,13 +360,16 @@ class mainApp( QWidget ):
         layout.addWidget( option_resol_msg,       10, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
         layout.addWidget( self.option_resol,      10, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
         layout.addWidget( help_resolution,        10, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
-        layout.addWidget( self.button_run,        11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( QLabel( '' ),           12, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
-        layout.addWidget( result_title,           13, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.button_dl_leaves,  14, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.button_dl_tree,    15, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( self.button_show_trees, 16, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
-        layout.addWidget( help_viewer,            16, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( option_trelb_msg,       11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.option_trelb,      11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( help_treelabel,         11, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
+        layout.addWidget( self.button_run,        12, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( QLabel( '' ),           13, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignCenter )
+        layout.addWidget( result_title,           14, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_dl_leaves,  15, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_dl_tree,    16, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( self.button_show_trees, 17, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignLeft   )
+        layout.addWidget( help_viewer,            17, 0, 1, 1, alignment = Qt.AlignmentFlag.AlignRight  )
 
     def openInputFile( self ):
         file_name, _ = QFileDialog.getOpenFileName( self )
@@ -426,6 +447,8 @@ class mainApp( QWidget ):
             # Disable run button immediately not to be pushed again
             self.button_run.setEnabled( False )
             if ( self.button_run.isEnabled() == False ): self.button_run.setStyleSheet( st.button_run_disable )
+            # Get result tree labels option
+            self.leaves_label = ( self.option_trelb ).currentText()
             # Run pruner
             self.output_leaves, self.output_tree = pruner.run_pruner(
                 ( self.input_content   ).toPlainText(),
@@ -479,7 +502,12 @@ class mainApp( QWidget ):
         # Get tempfile name
         file_path = utils.out_trees_html_path()
         # Create trees viewer HTML
-        viewer.render_result_trees( self.input_tree, self.output_tree, file_path )
+        viewer.render_result_trees(
+            self.input_tree,
+            self.output_tree,
+            file_path,
+            self.leaves_label
+        )
         # Show result tree in browser
         viewer.show_trees( file_path )
         # Remove temp HTML file
