@@ -58,7 +58,7 @@ Then, the directory `dist` should be generated on the current directory and you 
 
 Once you activate OCTOPAS GUI, the main window of the GUI should appear with a terminal which records execution logs. The termial window monitors what exactly the program is doing. 
 
-[img_mainwindow]
+![readme image 1](image/main_window.jpg)
 
 ### Input file format
 
@@ -81,7 +81,7 @@ You can hover over the **`?`** marks at the right side of the main window to mor
 
 Once you push ***`RUN`*** button then calculation begins. After finish calculation, 3 types of information as output are available. 1) A list of remaining leaves throughout calculation in text format can be by pushing *`Download remaining leaves list`* button. 2) Pushing *`Download pruned tree`* also provides the result runed phylogenetic tree in Newick format. 3) In addition to them, You can get a quick view of the result phylogenetic trees on your browser when you push *`See result trees on browser`* button. If *`Label appearance option`* is set at *`Show labels in trees`*, detailed information of leaves such as leaf name and branch lengh will appear when you hover over each leaf. ✅**NOTE** that this result tree viewer will show 2 phylogenetic trees; the top one is the original input tree and the bottom one is the output prined tree.
 
-[img_result_trees]
+![readme image 2](image/result_trees.jpg)
 
 ## Queries, issues and reports
 
