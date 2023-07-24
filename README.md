@@ -20,7 +20,7 @@ This is GUI version of OCTOPAS ([https://github.com/shin-kinos/OCTOPAS](https://
 
 Download the binary files from the links above, and implement them on your environment. 
 
-If you would like to get the Python source and implement the OCTOPAS GUI on your own, please reference the 
+If you would like to get the Python source and implement the OCTOPAS GUI on your own, please reference the following installation guide: 
 
 The OCTOPAS GUI requires `PyQt6`, `phylotreelib` and `Toytree` modules. So, if necessary, install them by using `pip` command:
 
@@ -87,4 +87,4 @@ Once you push ***`RUN`*** button then calculation begins. After finish calculati
 
 ## Queries, issues and reports
 
-If you have any inquiries, requests for new functionalities, reports on errors, or concerns related to the most recent release of OCTOPAS GUI, kindly utilise the issues section positioned at the upper-left corner of the GitHub repository.
+If you have any inquiries, requests for new functionalities, reports on errors, or concerns related to the most recent release of OCTOPAS GUI, kindly utilise the [issues](https://github.com/shin-kinos/GUIforOCTOPAS/issues) section positioned at the upper-left corner of the GitHub repository.
