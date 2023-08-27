@@ -1,6 +1,6 @@
 # GUIforOCTOPAS
 
-[![GitHub release](https://img.shields.io/badge/release-v0.1.6-brightgreen)](https://github.com/shin-kinos/GUIforOCTOPAS/releases/tag/v0.1.6) [![GitHub license](https://img.shields.io/badge/LICENSE-GPLv3-blue)](https://github.com/shin-kinos/GUIforOCTOPAS/blob/main/LICENSE) 
+[![GitHub release](https://img.shields.io/badge/release-v0.1.7-brightgreen)](https://github.com/shin-kinos/GUIforOCTOPAS/releases/tag/v0.1.7) [![GitHub license](https://img.shields.io/badge/LICENSE-GPLv3-blue)](https://github.com/shin-kinos/GUIforOCTOPAS/blob/main/LICENSE) 
 
 This is GUI version of OCTOPAS ([https://github.com/shin-kinos/OCTOPAS](https://github.com/shin-kinos/OCTOPAS)). OCTOPAS is fast and high-performace Python tool which can 'prune' a large size and redandunt phylogenetic datasets by referencing their parent nodes.
 
