@@ -55,7 +55,7 @@ RUN_BUTTON_WIDTH  = 180
 RUN_BUTTON_HEIGHT = 30
 DL_BUTTON_WIDTH   = 320
 DL_BUTTON_HEIGHT  = 30
-VERSION           = 'version 0.1.6  '
+VERSION           = 'version 0.1.7  '
 #MSGBOX_TEMPLATE   = 'QLabel{ min-width: 200px; }'
 LINK_TEMPLATE     = '<a href={0}>{1}</a>'
 PYTHON_SRC_LINK   = 'https://github.com/shin-kinos/OCTOPAS'
