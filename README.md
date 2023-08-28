@@ -15,8 +15,8 @@ This is GUI version of OCTOPAS ([https://github.com/shin-kinos/OCTOPAS](https://
 
 **OCTOPAS GUI executables are now available on Windows and MacOS:**
 
-* **[Windows](https://github.com/shin-kinos/GUIforOCTOPAS/releases/download/v0.1.6/octopas_gui_windows.zip)**
-* **[MacOS](https://github.com/shin-kinos/GUIforOCTOPAS/releases/download/v0.1.6/octopas_gui_macos.tar.gz)** 
+* **[Windows (v0.1.7)](https://github.com/shin-kinos/GUIforOCTOPAS/releases/download/v0.1.7/octopas_gui_windows.zip)**
+* **[MacOS (v0.1.6)](https://github.com/shin-kinos/GUIforOCTOPAS/releases/download/v0.1.7/octopas_gui_macos.tar.gz)** 
 
 Download the binary files from the links above, and implement them on your environment. 
 
